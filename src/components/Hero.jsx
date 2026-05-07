@@ -29,7 +29,7 @@ export const Hero = () => {
         scrollTrigger: {
           trigger: heroRef.current,
           start: "top top",
-          end: "+=1500",
+          end: "+=1000",
           pin: true,
           scrub: 1,
           anticipatePin: 1,
