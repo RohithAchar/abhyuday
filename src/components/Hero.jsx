@@ -9,66 +9,96 @@ export const Hero = () => {
   const leftTreesRef = useRef(null);
   const rightTreesRef = useRef(null);
   const kidsRef = useRef(null);
+  const heroTextRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      const isMobile = window.innerWidth < 768;
+      const elements = [
+        bgRef.current,
+        leftTreesRef.current,
+        rightTreesRef.current,
+        kidsRef.current,
+        heroTextRef.current,
+      ];
+
+      gsap.set(elements, { willChange: "transform, filter", force3D: true });
+      gsap.set(heroTextRef.current, { visibility: "visible", opacity: 1 });
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: heroRef.current,
           start: "top top",
           end: "+=1500",
           pin: true,
-          scrub: true,
+          scrub: 1,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
         },
       });
 
       tl.to(
         bgRef.current,
         {
-          filter: "blur(6px)",
+          ...(isMobile ? {} : { filter: "blur(6px)" }),
           scale: 1.05,
+          ease: "none",
         },
         0,
       )
-
         .to(
           leftTreesRef.current,
           {
-            x: -150, // move left
-            filter: "blur(6px)",
+            y: isMobile ? -25 : -50,
+            x: isMobile ? -75 : -150,
+            ...(isMobile ? {} : { filter: "blur(6px)" }),
+            ease: "none",
           },
           0,
         )
-
         .to(
           rightTreesRef.current,
           {
-            x: 150, // move right
-            filter: "blur(6px)",
+            y: isMobile ? -25 : -50,
+            x: isMobile ? 75 : 150,
+            ...(isMobile ? {} : { filter: "blur(6px)" }),
+            ease: "none",
           },
           0,
         )
         .to(
           kidsRef.current,
           {
-            y: -100,
-            scale: 2,
+            y: isMobile ? -60 : -120,
+            scale: isMobile ? 1.5 : 2,
+            ease: "none",
+          },
+          0,
+        )
+        .to(
+          heroTextRef.current,
+          {
+            y: isMobile ? -180 : -360,
+            opacity: 1,
+            visibility: "visible",
+            ease: "power2.out",
+            duration: 0.5,
           },
           0,
         );
     });
 
-    let resizeTimer;
-    const handleResize = () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => ScrollTrigger.refresh(), 200);
-    };
-    window.addEventListener("resize", handleResize);
+    let rafId;
+    const ro = new ResizeObserver(() => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => ScrollTrigger.refresh());
+    });
+    ro.observe(document.documentElement);
 
     return () => {
       ctx.revert();
-      window.removeEventListener("resize", handleResize);
-      clearTimeout(resizeTimer);
+      ro.disconnect();
+      cancelAnimationFrame(rafId);
     };
   }, []);
 
@@ -79,26 +109,45 @@ export const Hero = () => {
         src="/strange-bg-sans-trees.png"
         alt="Background"
         className="absolute inset-0 w-full h-full object-cover"
+        style={{ willChange: "transform" }}
+      />
+      <img
+        ref={heroTextRef}
+        src="/hero-text.png"
+        alt="Hero Text"
+        className="absolute top-[10%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] sm:w-[70%] md:w-2/3 lg:w-[40%] xl:w-[35%] max-w-[450px]"
+        style={{ willChange: "transform", opacity: 0, visibility: "hidden" }}
       />
       <img
         ref={leftTreesRef}
         src="/trees-left.png"
         alt="Trees left"
-        style={{ height: "100%", width: "auto", maxWidth: "none" }}
+        style={{
+          height: "100%",
+          width: "auto",
+          maxWidth: "none",
+          willChange: "transform",
+        }}
         className="absolute top-0 left-0 ml-[-750px] sm:ml-[-700px] md:ml-[-650px] lg:ml-[-600px] xl:ml-[-500px] 2xl:ml-[-350px] 3xl:ml-[-350px]"
       />
       <img
         ref={rightTreesRef}
         src="/trees-right.png"
         alt="Trees right"
-        style={{ height: "100%", width: "auto", maxWidth: "none" }}
+        style={{
+          height: "100%",
+          width: "auto",
+          maxWidth: "none",
+          willChange: "transform",
+        }}
         className="absolute top-0 right-0 mr-[-750px] sm:mr-[-700px] md:mr-[-650px] lg:mr-[-600px] xl:mr-[-500px] 2xl:mr-[-350px] 3xl:mr-[-350px]"
       />
       <img
         ref={kidsRef}
         src="/strange-kids.png"
         alt="Kids"
-        className="absolute bottom-0 left-1/2 transform -translate-x-1/2 scale-120 min-w-[1200px]"
+        className="absolute bottom-0 left-1/2 -translate-x-1/2 scale-120 min-w-[1200px]"
+        style={{ willChange: "transform" }}
       />
     </div>
   );
