@@ -128,7 +128,7 @@ export const Hero = () => {
           maxWidth: "none",
           willChange: "transform",
         }}
-        className="absolute top-0 left-0 ml-[-750px] sm:ml-[-700px] md:ml-[-650px] lg:ml-[-600px] xl:ml-[-500px] 2xl:ml-[-350px] 3xl:ml-[-350px]"
+        className="absolute top-0 left-0 ml-[-700px] sm:ml-[-700px] md:ml-[-650px] lg:ml-[-600px] xl:ml-[-500px] 2xl:ml-[-350px] 3xl:ml-[-350px]"
       />
       <img
         ref={rightTreesRef}
@@ -140,7 +140,7 @@ export const Hero = () => {
           maxWidth: "none",
           willChange: "transform",
         }}
-        className="absolute top-0 right-0 mr-[-750px] sm:mr-[-700px] md:mr-[-650px] lg:mr-[-600px] xl:mr-[-500px] 2xl:mr-[-350px] 3xl:mr-[-350px]"
+        className="absolute top-0 right-0 mr-[-700px] sm:mr-[-700px] md:mr-[-650px] lg:mr-[-600px] xl:mr-[-500px] 2xl:mr-[-350px] 3xl:mr-[-350px]"
       />
       <img
         ref={kidsRef}
