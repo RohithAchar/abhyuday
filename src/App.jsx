@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { Hero } from "./components/Hero";
+import { Second } from "./components/Second";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -35,6 +36,7 @@ function App() {
         <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin" />
       </div>
       <Hero />
+      <Second />
     </div>
   );
 }

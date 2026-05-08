@@ -10,6 +10,8 @@ export const Hero = () => {
   const rightTreesRef = useRef(null);
   const kidsRef = useRef(null);
   const heroTextRef = useRef(null);
+  const blackRef = useRef(null);
+  const abRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -24,14 +26,16 @@ export const Hero = () => {
 
       gsap.set(elements, { willChange: "transform, filter", force3D: true });
       gsap.set(heroTextRef.current, { visibility: "visible", opacity: 1 });
+      gsap.set([blackRef.current, abRef.current], { y: "100%", force3D: true });
+      gsap.set(abRef.current, { filter: "blur(10px)", force3D: true });
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: heroRef.current,
           start: "top top",
-          end: "+=1000",
+          end: "+=1500",
           pin: true,
-          scrub: 1,
+          scrub: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
         },
@@ -41,8 +45,8 @@ export const Hero = () => {
         bgRef.current,
         {
           ...(isMobile ? {} : { filter: "blur(6px)" }),
-          scale: 1.05,
-          ease: "none",
+          scale: 1.2,
+          ease: null,
         },
         0,
       )
@@ -52,7 +56,7 @@ export const Hero = () => {
             y: isMobile ? -25 : -50,
             x: isMobile ? -75 : -150,
             ...(isMobile ? {} : { filter: "blur(6px)" }),
-            ease: "none",
+            ease: null,
           },
           0,
         )
@@ -62,7 +66,7 @@ export const Hero = () => {
             y: isMobile ? -25 : -50,
             x: isMobile ? 75 : 150,
             ...(isMobile ? {} : { filter: "blur(6px)" }),
-            ease: "none",
+            ease: null,
           },
           0,
         )
@@ -71,7 +75,7 @@ export const Hero = () => {
           {
             y: isMobile ? -60 : -120,
             scale: isMobile ? 1.5 : 2,
-            ease: "none",
+            ease: null,
           },
           0,
         )
@@ -81,10 +85,52 @@ export const Hero = () => {
             y: isMobile ? -180 : -360,
             opacity: 1,
             visibility: "visible",
-            ease: "power2.out",
+            ease: null,
             duration: 0.5,
           },
           0,
+        )
+        .to(
+          abRef.current,
+          {
+            y: 0,
+            filter: "blur(0px)",
+            ease: null,
+          },
+          0.3,
+        )
+        .to(
+          blackRef.current,
+          {
+            y: 0,
+            ease: null,
+          },
+          0.4,
+        )
+        .to(
+          abRef.current,
+          {
+            y: 0,
+            filter: "blur(0px)",
+            force3D: true,
+          },
+          0.3,
+        )
+        .to(
+          blackRef.current,
+          {
+            y: 0,
+            force3D: true,
+          },
+          0.4,
+        )
+        .to(
+          abRef.current,
+          {
+            y: -50,
+            force3D: true,
+          },
+          0.6,
         );
     });
 
@@ -148,6 +194,16 @@ export const Hero = () => {
         alt="Kids"
         className="absolute bottom-0 left-1/2 -translate-x-1/2 scale-120 min-w-[1200px]"
         style={{ willChange: "transform" }}
+      />
+      <div
+        ref={blackRef}
+        className="absolute inset-0 bg-black -translate-y-full"
+      />
+      <img
+        ref={abRef}
+        src="/ab_transparent.png"
+        alt="Abhyuday"
+        className="absolute inset-0 w-full h-full object-contain -translate-y-full"
       />
     </div>
   );
