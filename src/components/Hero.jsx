@@ -27,7 +27,7 @@ export const Hero = () => {
       gsap.set(elements, { willChange: "transform, filter", force3D: true });
       gsap.set(heroTextRef.current, { visibility: "visible", opacity: 1 });
       gsap.set([blackRef.current, abRef.current], { y: "100%", force3D: true });
-      gsap.set(abRef.current, { filter: "blur(10px)", force3D: true });
+      gsap.set(abRef.current, { force3D: true });
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -94,7 +94,6 @@ export const Hero = () => {
           abRef.current,
           {
             y: 0,
-            filter: "blur(0px)",
             ease: null,
           },
           0.3,
@@ -111,7 +110,6 @@ export const Hero = () => {
           abRef.current,
           {
             y: 0,
-            filter: "blur(0px)",
             force3D: true,
           },
           0.3,
